@@ -1,49 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>QR Code Generator</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-    <style>
-        .box {
-            /* border: 1px solid red; */
-            max-width: 300px;
-            margin: 15px;
-        }
+@section('main')
+<div id="loading">
+    <h1>Generating QR Codes.. Please wait a while</h1>
+</div>
 
-        .wrapper {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-    </style>
-</head>
 
-<body>
-    <div class="wrapper">
-        <form action="{{ route('print') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <div class="my-2">
-                <label for="">Upload your file</label>
+<div class="align-items-center d-flex" style="height: 100vh">
+    <form action="{{ route('print') }}" class="container" method="POST" enctype="multipart/form-data">
+        @csrf
+        <div class="row">
+            <div class="col-md-4">
+                <label for="">Size (px)</label>
+                <input type="number" name="size" class="form-control" placeholder="230px">
+                @error('size')
+                <div style="color: red">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="col-md-4">
+                <label for="">Items per page</label>
+                <input type="number" name="per_page" class="form-control" placeholder="9">
+                @error('per_page')
+                <div style="color: red">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="col-md-4">
+                <label for="">Margin (px)</label>
+                <input type="number" name="margin" class="form-control" placeholder="10px">
+                @error('margin')
+                <div style="color: red">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="col-md-12">
+                <label for="">Upload file (csv, xlxs etc)</label>
                 <input type="file" name="file" class="form-control">
                 @error('file')
                 <div style="color: red">{{ $message }}</div>
                 @enderror
             </div>
-            <div class="my-2 text-center">
-                <button type="submit" class="btn btn-primary btn-block">Submit File</button>
+            <div class="col-md-12 my-3 text-center">
+                <button type="submit" onclick="showLoader()" class="btn btn-primary btn-block">Generate QR Code</button>
             </div>
-        </form>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous">
-    </script>
-</body>
-
-</html>
+        </div>
+    </form>
+</div>
+@endsection
