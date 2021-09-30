@@ -31,8 +31,8 @@
             @csrf
             <div class="my-2">
                 <label for="">Upload your file</label>
-                <input type="file" name="uploaded_file" class="form-control">
-                @error('uploaded_file')
+                <input type="file" name="file" class="form-control">
+                @error('file')
                 <div style="color: red">{{ $message }}</div>
                 @enderror
             </div>

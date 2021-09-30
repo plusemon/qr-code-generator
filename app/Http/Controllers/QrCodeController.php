@@ -12,10 +12,10 @@ class QrCodeController extends Controller
     public function print(Request $request)
     {
         $request->validate([
-            'uploaded_file' => ['required','file']
+            'file' => ['required','file']
         ]);
 
-        $qrcodes = Excel::toCollection(new QrCodeImport, $request->file('uploaded_file'))
+        $qrcodes = Excel::toCollection(new QrCodeImport, $request->file('file'))
         ->first()->chunk(9);
 
         return view('print', compact('qrcodes'));
