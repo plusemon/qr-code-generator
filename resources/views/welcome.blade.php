@@ -2,7 +2,7 @@
 
 @section('main')
 <div id="loading">
-    <h1>Generating QR Codes.. Please wait a while</h1>
+    <h1>Loading.. Please wait</h1>
 </div>
 
 
@@ -10,7 +10,7 @@
     <form action="{{ route('print') }}" class="container" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row">
-            <div class="col-md-4">
+            {{-- <div class="col-md-4">
                 <label for="">Size (px)</label>
                 <input type="number" name="size" class="form-control" placeholder="230px">
                 @error('size')
@@ -32,10 +32,10 @@
                 @error('margin')
                 <div style="color: red">{{ $message }}</div>
                 @enderror
-            </div>
+            </div> --}}
 
             <div class="col-md-12">
-                <label for="">Upload file (csv, xlxs etc)</label>
+                <label for="">Upload file (csv, xlxs etc) <a download href="{{ url('/sample-qr-codes.xlsx') }}">Download sample-qr-codes.xls</a></label>
                 <input type="file" name="file" class="form-control">
                 @error('file')
                 <div style="color: red">{{ $message }}</div>
@@ -47,4 +47,5 @@
         </div>
     </form>
 </div>
+
 @endsection

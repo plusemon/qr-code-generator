@@ -18,4 +18,5 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 Route::view('/', 'welcome')->name('home');
 Route::post('qr', ['\App\Http\Controllers\QrCodeController','print'])->name('print');
+
     
