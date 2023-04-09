@@ -28,15 +28,12 @@ class QrCodeController extends Controller
 
         // $start = time();
 
-
         $qrcodes = Excel::toCollection(new QrCodeImport, $request->file('file'))->first()
             ->flatten();
 
-        $sheets = $qrcodes->count() / 7;
-
-        if ($sheets > 1000) {
+        if ($qrcodes->count() > 3500) {
             throw \Illuminate\Validation\ValidationException::withMessages([
-                'file' => 'Maximum 7000 qr code allowed'
+                'file' => 'Maximum 3500 items allowed. (This file has ' . $qrcodes->count() . ' items)'
             ]);
         }
 

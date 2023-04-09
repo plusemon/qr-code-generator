@@ -74,6 +74,7 @@
     <style>
         #myProgressBar {
             display: none;
+            align-items: center;
             /* display: flex; */
         }
 
@@ -92,7 +93,7 @@
             line-height: 30px;
             /* To center it vertically */
             color: white;
-            transition: 500ms;
+            transition: 1000ms;
         }
     </style>
 @endpush
