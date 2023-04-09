@@ -19,6 +19,15 @@ class QrCodeController extends Controller
         ini_set('max_execution_time', 36000);
     }
 
+    public function home()
+    {
+        $directory = public_path('pdf');
+        $items = array_diff(scandir($directory), array('..', '.'));
+
+        $files = collect($items)->reverse()->values();
+        return view('welcome', compact('files'));
+    }
+
     public function print(Request $request)
     {
 
@@ -62,6 +71,11 @@ class QrCodeController extends Controller
         // echo ('<br/> ' . $qrcodes->count() . ' qr code pdf (' . ($qrcodes->count() / 7) . ' pages) saved in => ' . time() - $start . ' sec');
         // exit;
         // view('print');
+    }
+
+    public function destroy($item)
+    {
+        return $item;
     }
 
     private function clearQrCodes()

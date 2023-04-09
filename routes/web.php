@@ -1,9 +1,6 @@
 <?php
 
-use App\Imports\QrCodeImport;
 use Illuminate\Support\Facades\Route;
-use Maatwebsite\Excel\Facades\Excel;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +13,10 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 |
 */
 
-Route::view('/', 'welcome')->name('home');
-Route::post('qr', ['\App\Http\Controllers\QrCodeController','print'])->name('print');
+Route::get('/', ['\App\Http\Controllers\QrCodeController', 'home'])->name('home');
 
-    
+Route::post('qr', ['\App\Http\Controllers\QrCodeController', 'print'])->name('print');
+
+Route::delete('qr/{path}', ['\App\Http\Controllers\QrCodeController', 'destroy'])->name('qr.destroy');
+
+Route::get('history', ['\App\Http\Controllers\QrCodeController', 'history'])->name('history');
