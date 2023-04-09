@@ -2,6 +2,7 @@
 /public/hot
 /public/storage
 /public/qrcodes
+/public/pdf
 /storage/*.key
 /vendor
 .env

@@ -48,13 +48,13 @@
     </style>
 </head>
 
-@foreach ($items as $qrcodes)
+@foreach ($qrcodes->chunk(7) as $chunk)
     <div class="artboard">
         <div class="page">
-            @foreach ($qrcodes as $qr)
+            @foreach ($chunk as $code)
                 <div class="item">
-                    <img class="qrimg" src="{{ $qr['img'] }}">
-                    <span class="qrcode">{{ $qr['code'] }}</span>
+                    <img class="qrimg" src="{{ url("qrcodes/$code.svg") }}">
+                    <span class="qrcode">{{ $code }}</span>
                 </div>
             @endforeach
         </div>

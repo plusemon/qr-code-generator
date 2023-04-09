@@ -6,41 +6,72 @@ use Illuminate\Http\Request;
 use App\Imports\QrCodeImport;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 
 class QrCodeController extends Controller
 {
+
+    public function __construct()
+    {
+        ini_set('max_execution_time', 36000);
+    }
+
     public function print(Request $request)
     {
+
         $request->validate([
             'file' => ['required', 'file'],
         ]);
 
-        $qrcodes = Excel::toCollection(new QrCodeImport, $request->file('file'))->first()->flatten();
+        // $start = time();
 
-        $data['items'] = $qrcodes->map(function ($item) {
 
-            $file_name = $item . '.svg';
-            $file_path = public_path("qrcodes/$file_name");
+        $qrcodes = Excel::toCollection(new QrCodeImport, $request->file('file'))->first()
+            ->flatten();
 
-            if (!file_exists($file_path)) QrCode::size(40)->generate($item, $file_path);
+        $sheets = $qrcodes->count() / 7;
 
-            return [
-                'img' => url("qrcodes/$file_name"),
-                'code' => $item
-            ];
-        })->chunk(7);
+        if ($sheets > 1000) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'file' => 'Maximum 7000 qr code allowed'
+            ]);
+        }
 
-        $pdf_name = 'bizli_mrp_label_qrcodes_'.now('asia/dhaka')->format("Y_m_d_h_i_s") . '.pdf';
-        $data['pdf_name'] = $pdf_name;
-        $pdf = Pdf::loadView('print', $data);
+        // echo ('Excel pharsed in => ' . time() - $start . ' sec');
 
-        $width = 638;
-        $height = 1096;
+        $this->clearQrCodes();
 
-        $pdf->set_paper(array(0, 0, $width, $height));
-        return $pdf->stream($pdf_name);
+        // echo ('<br/> existing data cleared in => ' . time() - $start . ' sec');
+
+        $qrcodes
+            ->each(function ($item) {
+                if (!file_exists(public_path("qrcodes/$item.svg")))
+                    QrCode::size(40)->generate($item, public_path("qrcodes/$item.svg"));
+            });
+
+        // echo ('<br/> ' . $qrcodes->count() . ' qr codes(svg) saved in => ' . time() - $start . ' sec');
+
+        $pdf_name = 'bizli_labels_' . now('asia/dhaka')->format("Y_m_d_h_i_s") . '.pdf';
+
+        $pdf = Pdf::loadView('print', compact('qrcodes', 'pdf_name'));
+        $pdf->set_paper(array(0, 0, 638, 1096));
+
+        $pdf->save(public_path('pdf/' . $pdf_name));
+        return $pdf->stream();
+
+        // echo ('<br/> ' . $qrcodes->count() . ' qr code pdf (' . ($qrcodes->count() / 7) . ' pages) saved in => ' . time() - $start . ' sec');
+        // exit;
+        // view('print');
+    }
+
+    private function clearQrCodes()
+    {
+        $folder_path = public_path('qrcodes');
+
+        // Delete all the files inside the given folder
+        array_map('unlink', array_filter(glob("$folder_path/*"), 'is_file'));
     }
 }
