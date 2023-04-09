@@ -17,6 +17,4 @@ Route::get('/', ['\App\Http\Controllers\QrCodeController', 'home'])->name('home'
 
 Route::post('qr', ['\App\Http\Controllers\QrCodeController', 'print'])->name('print');
 
-Route::delete('qr/{path}', ['\App\Http\Controllers\QrCodeController', 'destroy'])->name('qr.destroy');
-
-Route::get('history', ['\App\Http\Controllers\QrCodeController', 'history'])->name('history');
+// Route::delete('qr/{path}', ['\App\Http\Controllers\QrCodeController', 'destroy'])->name('qr.destroy');

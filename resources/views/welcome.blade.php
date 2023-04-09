@@ -1,5 +1,37 @@
 @extends('app')
 
+@push('head')
+    <style>
+        #myProgressBar {
+            display: none;
+            align-items: center;
+            /* display: flex; */
+        }
+
+        #myProgress {
+            margin-left: 10px;
+            border: 1px solid #dfdfdf;
+            width: 100%;
+        }
+
+        #myBar {
+            width: 0%;
+            height: 30px;
+            background-color: #04AA6D;
+            text-align: center;
+            /* To center it horizontally (if you want) */
+            line-height: 30px;
+            /* To center it vertically */
+            color: white;
+            transition: 1000ms;
+        }
+
+        nav .pagination {
+            justify-content: center !important;
+        }
+    </style>
+@endpush
+
 @section('main')
     <div class="mt-5">
         <h5 class="text-center mb-5">Autometic QR code generating system </h5>
@@ -71,42 +103,53 @@
                 </div>
             </div>
         </form>
-        <div>
-            @include('history')
+        <div class="container" id="historyTable" style="display: {{ request()->has('page') ? 'block' : 'none' }}">
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr class="text-center">
+                        {{-- <th>#</th> --}}
+                        <th>PDF</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($files as $file)
+                        <tr class="">
+                            {{-- <td>{{ $loop->iteration }}</td> --}}
+                            <td>
+                                {{ $file }}
+                            </td>
+                            <td class="text-center">
+                                {{-- <form action="{{ route('qr.destroy', $file) }}" method="POST"
+                                  onsubmit="return confirm('Are you sure want to delete?')">
+                                @csrf --}}
+                                <a class="btn btn-sm btn-primary me-3" href="{{ url("pdf/$file") }}">View</a>
+                                <a class="btn btn-sm btn-success me-3" href="{{ url("pdf/$file") }}" download="">Download</a>
+                                {{-- <button class="btn btn-danger btn-sm" type="submit">Delete</button> --}}
+                                {{-- </form> --}}
+                            </td>
+                        </tr>
+                    @endforeach
+
+                </tbody>
+            </table>
+            <div class="text-center">
+                {{ $files->links() }}
+            </div>
         </div>
     </div>
 @endsection
 
-@push('head')
-    <style>
-        #myProgressBar {
-            display: none;
-            align-items: center;
-            /* display: flex; */
-        }
-
-        #myProgress {
-            margin-left: 10px;
-            border: 1px solid #dfdfdf;
-            width: 100%;
-        }
-
-        #myBar {
-            width: 0%;
-            height: 30px;
-            background-color: #04AA6D;
-            text-align: center;
-            /* To center it horizontally (if you want) */
-            line-height: 30px;
-            /* To center it vertically */
-            color: white;
-            transition: 1000ms;
-        }
-    </style>
-@endpush
-
 @push('js')
     <script>
+        function toggleHistory() {
+            if (document.getElementById('historyTable').style.display == 'none') {
+                document.getElementById('historyTable').style.display = 'block';
+            } else {
+                document.getElementById('historyTable').style.display = 'none';
+            }
+        }
+
         var i = 0;
 
         function showLoader() {

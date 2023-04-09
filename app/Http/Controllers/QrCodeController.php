@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Support\Collection;
 use Illuminate\Http\Request;
 use App\Imports\QrCodeImport;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
-use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Validation\ValidationException;
 
 
 class QrCodeController extends Controller
@@ -25,6 +26,9 @@ class QrCodeController extends Controller
         $items = array_diff(scandir($directory), array('..', '.'));
 
         $files = collect($items)->reverse()->values();
+
+        $files = (new Collection($items))->paginate(20);
+
         return view('welcome', compact('files'));
     }
 
