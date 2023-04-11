@@ -9,36 +9,36 @@
 
         .artboard {
             margin: 0;
-            padding-top: 55pt;
-            padding-left: 43pt;
+            padding-top: 2pt;
+            padding-left: 20pt;
+            height: 612pt;
+            height: 1008pt;
         }
 
         .page {
-            /* background-color: rgb(232, 232, 232); */
-            height: 982pt;
         }
 
         .item {
-            height: 140pt;
-            width: 552pt;
-            /* border: 1px solid black; */
+            height: 140.5pt;
+            width: 562pt;
             position: relative;
+            /* border: 1px solid black; */
         }
 
         .qrimg {
             position: absolute;
-            top: 96pt;
+            top: 95.4pt;
             left: 170pt;
         }
 
         .qrcode {
             position: absolute;
-            top: 111pt;
+            top: 112.5pt;
             left: 216pt;
-            text-align: center;
+            text-align: center; 
             /* border: 1px solid red; */
-            height: 13pt;
-            width: 143pt;
+            height: 16pt;
+            width: 150pt;
             font-size: 12pt;
         }
 

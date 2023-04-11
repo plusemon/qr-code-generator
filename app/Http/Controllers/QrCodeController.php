@@ -67,14 +67,10 @@ class QrCodeController extends Controller
         $pdf_name = 'bizli_labels_' . now('asia/dhaka')->format("Y_m_d_h_i_s") . '.pdf';
 
         $pdf = Pdf::loadView('print', compact('qrcodes', 'pdf_name'));
-        $pdf->set_paper(array(0, 0, 638, 1096));
+        $pdf->set_paper(array(0, 0, 612, 1008));
 
         $pdf->save(public_path('pdf/' . $pdf_name));
-        return $pdf->stream();
-
-        // echo ('<br/> ' . $qrcodes->count() . ' qr code pdf (' . ($qrcodes->count() / 7) . ' pages) saved in => ' . time() - $start . ' sec');
-        // exit;
-        // view('print');
+        return $pdf->stream($pdf_name);
     }
 
     public function destroy($item)
