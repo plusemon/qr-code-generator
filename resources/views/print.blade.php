@@ -9,13 +9,15 @@
 
         .artboard {
             margin: 0;
-            padding-top: 2pt;
-            padding-left: 20pt;
-            height: 612pt;
-            height: 1008pt;
+            width: 612pt;
+            height: 1006pt;
+            /* border: 1px solid red; */
         }
 
         .page {
+            margin-top: 2pt;
+            margin-left: 20pt;
+            /* border: 1px solid green; */
         }
 
         .item {
@@ -35,7 +37,7 @@
             position: absolute;
             top: 112.5pt;
             left: 216pt;
-            text-align: center; 
+            text-align: center;
             /* border: 1px solid red; */
             height: 16pt;
             width: 150pt;
