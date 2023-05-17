@@ -52,25 +52,27 @@ class QrCodeController extends Controller
 
         // echo ('Excel pharsed in => ' . time() - $start . ' sec');
 
-        $this->clearQrCodes();
+        // $this->clearQrCodes();
 
         // echo ('<br/> existing data cleared in => ' . time() - $start . ' sec');
 
-        $qrcodes
-            ->each(function ($item) {
-                if (!file_exists(public_path("qrcodes/$item.svg")))
-                    QrCode::size(40)->generate($item, public_path("qrcodes/$item.svg"));
-            });
+        // $qrcodes
+        //     ->each(function ($item) {
+        //         if (!file_exists(public_path("qrcodes/$item.svg")))
+        //             QrCode::size(40)->generate($item, public_path("qrcodes/$item.svg"));
+        //     });
 
         // echo ('<br/> ' . $qrcodes->count() . ' qr codes(svg) saved in => ' . time() - $start . ' sec');
 
         $pdf_name = 'bizli_labels_' . now('asia/dhaka')->format("Y_m_d_h_i_s") . '.pdf';
 
-        $pdf = Pdf::loadView('print', compact('qrcodes', 'pdf_name'));
-        $pdf->set_paper(array(0, 0, 612, 1008));
+        // return view('print', compact('qrcodes', 'pdf_name'));
 
-        $pdf->save(public_path('pdf/' . $pdf_name));
+        $pdf = Pdf::loadView('print', compact('qrcodes', 'pdf_name'));
+        $pdf->set_paper(array(0, 0, 792, 504));
         return $pdf->stream($pdf_name);
+
+        // $pdf->save(public_path('pdf/' . $pdf_name));
     }
 
     public function destroy($item)
