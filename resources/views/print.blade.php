@@ -22,7 +22,7 @@
             width: 234pt;
             height: 151pt;
             position: relative;
-            border: 1px solid red;
+            border: 1px dotted red;
             display: inline-block;
             margin-right: 7pt; 
             margin-bottom: 10pt; 
@@ -30,9 +30,10 @@
 
         .qrcode {
             position: absolute;
-            top: 68pt;
+            top: 67pt;
             left: 97pt;
-            font-size: 10pt;
+            font-size: 9pt;
+            color: red;
         }
 
         .page-break {
