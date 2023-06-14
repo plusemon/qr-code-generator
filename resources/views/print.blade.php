@@ -8,13 +8,11 @@
         }
 
         .page {
-            padding-top: 16pt;
-            padding-left: 30pt;
             height: 504pt;
             width: 792pt;
             position: absolute;
-            left: 0;
-            top: 30;
+            top: 84pt;
+            left: 47pt;
             /* border: 1px solid green; */
         }
 
@@ -22,7 +20,7 @@
             width: 234pt;
             height: 151pt;
             position: relative;
-            border: 1px dotted red;
+            /* border: 1px dotted red; */
             display: inline-block;
             margin-right: 7pt; 
             margin-bottom: 10pt; 
@@ -33,7 +31,7 @@
             top: 67pt;
             left: 97pt;
             font-size: 9pt;
-            color: red;
+            /* color: red; */
         }
 
         .page-break {

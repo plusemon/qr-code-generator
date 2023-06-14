@@ -41,14 +41,14 @@ class QrCodeController extends Controller
 
         // $start = time();
 
-        $qrcodes = Excel::toCollection(new QrCodeImport, $request->file('file'))->first()
+        $qrcodes = Excel::toCollection(new QrCodeImport, $request->file('file'))->first()->take(1000*9)
             ->flatten();
 
-        if ($qrcodes->count() > 3500) {
-            throw \Illuminate\Validation\ValidationException::withMessages([
-                'file' => 'Maximum 3500 items allowed. (This file has ' . $qrcodes->count() . ' items)'
-            ]);
-        }
+        // if ($qrcodes->count() > 3500) {
+        //     throw \Illuminate\Validation\ValidationException::withMessages([
+        //         'file' => 'Maximum 3500 items allowed. (This file has ' . $qrcodes->count() . ' items)'
+        //     ]);
+        // }
 
         // echo ('Excel pharsed in => ' . time() - $start . ' sec');
 
@@ -64,15 +64,14 @@ class QrCodeController extends Controller
 
         // echo ('<br/> ' . $qrcodes->count() . ' qr codes(svg) saved in => ' . time() - $start . ' sec');
 
-        $pdf_name = 'bizli_labels_' . now('asia/dhaka')->format("Y_m_d_h_i_s") . '.pdf';
+        $pdf_name = 'bongo_' . now('asia/dhaka')->format("Y_m_d_h_i_s") . '.pdf';
 
         // return view('print', compact('qrcodes', 'pdf_name'));
 
         $pdf = Pdf::loadView('print', compact('qrcodes', 'pdf_name'));
         $pdf->set_paper(array(0, 0, 792, 504));
-        return $pdf->stream($pdf_name);
-
         // $pdf->save(public_path('pdf/' . $pdf_name));
+        return $pdf->stream($pdf_name);
     }
 
     public function destroy($item)
