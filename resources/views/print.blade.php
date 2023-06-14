@@ -9,14 +9,14 @@
 
         .artboard {
             margin: 0;
-            width: 612pt;
-            height: 1006pt;
+            width: {{ $width }}pt;
+            height: {{ $height }}pt;
             /* border: 1px solid red; */
         }
 
         .page {
-            margin-top: 2pt;
-            margin-left: 20pt;
+            margin-top: 44.5pt;
+            margin-left: 32.5pt;
             /* border: 1px solid green; */
         }
 
@@ -35,13 +35,13 @@
 
         .qrcode {
             position: absolute;
-            top: 112.5pt;
+            top: 112.2pt;
             left: 216pt;
             text-align: center;
             /* border: 1px solid red; */
             height: 16pt;
             width: 150pt;
-            font-size: 12pt;
+            font-size: 10pt;
         }
 
         .page-break {

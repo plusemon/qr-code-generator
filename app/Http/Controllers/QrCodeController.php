@@ -66,8 +66,13 @@ class QrCodeController extends Controller
 
         $pdf_name = 'bizli_labels_' . now('asia/dhaka')->format("Y_m_d_h_i_s") . '.pdf';
 
-        $pdf = Pdf::loadView('print', compact('qrcodes', 'pdf_name'));
-        $pdf->set_paper(array(0, 0, 612, 1008));
+        // artboard size in points (pt)
+
+        $height = 1071;
+        $width = 612;
+
+        $pdf = Pdf::loadView('print', compact('qrcodes', 'pdf_name', 'height', 'width'));
+        $pdf->set_paper(array(0, 0, $width, $height));
 
         $pdf->save(public_path('pdf/' . $pdf_name));
         return $pdf->stream($pdf_name);
