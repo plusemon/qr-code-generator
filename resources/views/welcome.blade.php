@@ -36,7 +36,7 @@
     <div class="mt-5">
         <h5 class="text-center mb-5">Autometic QR code generating system </h5>
 
-        <form action="{{ route('print') }}" class="container" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('print') }}" onsubmit="showLoader()" class="container" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div id="uploader">
@@ -46,9 +46,15 @@
                 @error('file')
                     <div style="color: red">{{ $message }}</div>
                 @enderror
+
+                <div>
+                    <input type="checkbox" id="with_border" name="border" value="true" class="form-check-input">
+                    <label for="with_border" class="form-check-label">With Border</label>
+                </div>
             </div>
+
             <div class="my-3 text-center" id="submitBtn">
-                <button type="submit" onclick="showLoader()" class="btn btn-primary btn-block">Generate QR Code</button>
+                <button type="submit" class="btn btn-primary btn-block">Generate QR Code</button>
                 <button type="button" class="btn btn-outline-dark" onclick="toggleHistory()">History</button>
 
             </div>

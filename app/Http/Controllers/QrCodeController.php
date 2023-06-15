@@ -25,7 +25,7 @@ class QrCodeController extends Controller
         $directory = public_path('pdf');
         $items = array_diff(scandir($directory), array('..', '.'));
 
-        $files = collect($items)->reverse()->values();
+        $files = $items;
 
         $files = (new Collection($items))->paginate(20);
 
@@ -40,6 +40,7 @@ class QrCodeController extends Controller
         ]);
 
         // $start = time();
+        $border = $request->get('border');
 
         $qrcodes = Excel::toCollection(new QrCodeImport, $request->file('file'))->first()
             ->flatten();
@@ -64,14 +65,15 @@ class QrCodeController extends Controller
 
         // echo ('<br/> ' . $qrcodes->count() . ' qr codes(svg) saved in => ' . time() - $start . ' sec');
 
-        $pdf_name = 'bizli_labels_' . now('asia/dhaka')->format("Y_m_d_h_i_s") . '.pdf';
+        $pdf_name = 'bizli_labels_' . now('asia/dhaka')->format("Y_m_d_h_i_s") . ($border ? '_(with_border)' : '') . '.pdf';
 
         // artboard size in points (pt)
 
         $height = 1071;
         $width = 612;
 
-        $pdf = Pdf::loadView('print', compact('qrcodes', 'pdf_name', 'height', 'width'));
+
+        $pdf = Pdf::loadView('print', compact('qrcodes', 'pdf_name', 'height', 'width', 'border'));
         $pdf->set_paper(array(0, 0, $width, $height));
 
         $pdf->save(public_path('pdf/' . $pdf_name));

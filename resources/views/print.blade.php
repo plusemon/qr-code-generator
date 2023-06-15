@@ -1,30 +1,32 @@
 <head>
     <title>{{ $pdf_name }}</title>
+
+    @php
+        $isActiveBorder = $border;
+    @endphp
     <style>
         * {
             margin: 0;
             padding: 0;
-            box-sizing: border-box
-        }
-
-        .artboard {
-            margin: 0;
-            width: {{ $width }}pt;
-            height: {{ $height }}pt;
-            /* border: 1px solid red; */
+            box-sizing: content-box;
         }
 
         .page {
-            margin-top: 44.5pt;
-            margin-left: 32.5pt;
-            /* border: 1px solid green; */
+            padding-top: 43pt;
+            padding-left: 31pt;
+            border: 1px solid {{ $isActiveBorder ? 'red' : 'transparent' }};
         }
 
         .item {
-            height: 140.5pt;
+            height: 139.5pt;
             width: 562pt;
             position: relative;
-            /* border: 1px solid black; */
+            border: 1px solid {{ $isActiveBorder ? 'red' : 'transparent' }};
+            border-bottom: none;
+        }
+
+        .page .item:last-child {
+            border-bottom: 1px solid {{ $isActiveBorder ? 'red' : 'transparent' }};
         }
 
         .qrimg {
@@ -35,13 +37,14 @@
 
         .qrcode {
             position: absolute;
-            top: 112.2pt;
-            left: 216pt;
+            top: 111pt;
+            left: 214pt;
             text-align: center;
-            /* border: 1px solid red; */
             height: 16pt;
             width: 150pt;
             font-size: 10pt;
+            line-height: 14pt;
+            border: 1px solid {{ $isActiveBorder ? 'red' : 'transparent' }};
         }
 
         .page-break {
