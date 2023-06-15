@@ -34,7 +34,8 @@
 
 @section('main')
     <div class="mt-5">
-        <h5 class="text-center mb-5">Autometic QR code generating system </h5>
+        <h1 class="text-center">QR Magic </h1>
+        <h6 class="text-center mb-5">Autometic QR Code Generation and manipulation </h6>
 
         <form action="{{ route('print') }}" onsubmit="showLoader()" class="container" method="POST" enctype="multipart/form-data">
             @csrf
