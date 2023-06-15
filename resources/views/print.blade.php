@@ -12,13 +12,13 @@
         }
 
         .page {
-            padding-top: 43pt;
-            padding-left: 31pt;
+            padding-top: 45pt;
+            padding-left: 30pt;
             border: 1px solid {{ $isActiveBorder ? 'red' : 'transparent' }};
         }
 
         .item {
-            height: 139.5pt;
+            height: 139.7pt;
             width: 562pt;
             position: relative;
             border: 1px solid {{ $isActiveBorder ? 'red' : 'transparent' }};
@@ -31,14 +31,15 @@
 
         .qrimg {
             position: absolute;
-            top: 95.4pt;
-            left: 170pt;
+            top: 97pt;
+            left: 171pt;
+            border: 1px solid {{ $isActiveBorder ? 'red' : 'transparent' }};
         }
 
         .qrcode {
             position: absolute;
-            top: 111pt;
-            left: 214pt;
+            top: 111.5pt;
+            left: 211.5pt;
             text-align: center;
             height: 16pt;
             width: 150pt;

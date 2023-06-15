@@ -60,7 +60,7 @@ class QrCodeController extends Controller
         $qrcodes
             ->each(function ($item) {
                 if (!file_exists(public_path("qrcodes/$item.svg")))
-                    QrCode::size(40)->generate($item, public_path("qrcodes/$item.svg"));
+                    QrCode::size(33)->generate($item, public_path("qrcodes/$item.svg"));
             });
 
         // echo ('<br/> ' . $qrcodes->count() . ' qr codes(svg) saved in => ' . time() - $start . ' sec');
@@ -69,7 +69,7 @@ class QrCodeController extends Controller
 
         // artboard size in points (pt)
 
-        $height = 1071;
+        $height = 1071.36;
         $width = 612;
 
 
