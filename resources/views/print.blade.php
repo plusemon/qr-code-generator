@@ -11,41 +11,43 @@
             box-sizing: content-box;
         }
 
-        .page {
-            padding-top: 45pt;
-            padding-left: 30pt;
-            border: 1px solid {{ $isActiveBorder ? 'red' : 'transparent' }};
+        .container {
+            padding-top: 31.2pt;
+            margin-top: 48pt;
+            margin-left: 32pt;
+            width: 100%;
+            border: 1px solid {{ $isActiveBorder ? 'lime' : 'transparent' }};
+
         }
 
         .item {
-            height: 139.7pt;
-            width: 562pt;
+            /* initial 0 by top value  */
+            top: 0;
+            left: 0;
+            height: 143.3pt;
+            width: 143pt;
+            margin: 5.2pt;
+            margin-right: 3pt;
+            display: inline-block;
             position: relative;
-            border: 1px solid {{ $isActiveBorder ? 'red' : 'transparent' }};
-            border-bottom: none;
+            border: 1px solid {{ $isActiveBorder ? 'lime' : 'transparent' }};
         }
 
         .page .item:last-child {
-            border-bottom: 1px solid {{ $isActiveBorder ? 'red' : 'transparent' }};
+            margin-bottom: 0;
+            border-bottom: 1px solid {{ $isActiveBorder ? 'lime' : 'transparent' }};
         }
 
-        .qrimg {
+        .code {
             position: absolute;
-            top: 97pt;
-            left: 171pt;
-            border: 1px solid {{ $isActiveBorder ? 'red' : 'transparent' }};
-        }
-
-        .qrcode {
-            position: absolute;
-            top: 111.5pt;
-            left: 211.5pt;
+            top: 66pt;
+            left: 10pt;
+            height: 20pt;
+            width: 122pt;
             text-align: center;
-            height: 16pt;
-            width: 150pt;
-            font-size: 10pt;
-            line-height: 14pt;
-            border: 1px solid {{ $isActiveBorder ? 'red' : 'transparent' }};
+            font-size: 9pt;
+            line-height: 12pt;
+            border: 1px solid {{ $isActiveBorder ? 'lime' : 'transparent' }};
         }
 
         .page-break {
@@ -54,13 +56,12 @@
     </style>
 </head>
 
-@foreach ($qrcodes->chunk(7) as $chunk)
+@foreach ($qrcodes->chunk(12) as $chunk)
     <div class="artboard">
-        <div class="page">
+        <div class="container">
             @foreach ($chunk as $code)
                 <div class="item">
-                    <img class="qrimg" src="{{ url("qrcodes/$code.svg") }}">
-                    <span class="qrcode">{{ $code }}</span>
+                    <span class="code">{{ $code }}</span>
                 </div>
             @endforeach
         </div>

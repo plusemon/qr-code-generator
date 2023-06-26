@@ -34,43 +34,21 @@ class QrCodeController extends Controller
 
     public function print(Request $request)
     {
-
         $request->validate([
             'file' => ['required', 'file'],
         ]);
 
-        // $start = time();
         $border = $request->get('border');
 
         $qrcodes = Excel::toCollection(new QrCodeImport, $request->file('file'))->first()
             ->flatten();
 
-        if ($qrcodes->count() > 3500) {
-            throw \Illuminate\Validation\ValidationException::withMessages([
-                'file' => 'Maximum 3500 items allowed. (This file has ' . $qrcodes->count() . ' items)'
-            ]);
-        }
-
-        // echo ('Excel pharsed in => ' . time() - $start . ' sec');
-
-        $this->clearQrCodes();
-
-        // echo ('<br/> existing data cleared in => ' . time() - $start . ' sec');
-
-        $qrcodes
-            ->each(function ($item) {
-                if (!file_exists(public_path("qrcodes/$item.svg")))
-                    QrCode::size(33)->generate($item, public_path("qrcodes/$item.svg"));
-            });
-
-        // echo ('<br/> ' . $qrcodes->count() . ' qr codes(svg) saved in => ' . time() - $start . ' sec');
-
-        $pdf_name = 'bizli_labels_' . now('asia/dhaka')->format("Y_m_d_h_i_s") . ($border ? '_(with_border)' : '') . '.pdf';
+        $pdf_name = 'kg_stiker_' . now('asia/dhaka')->format("Y_m_d_h_i_s") . ($border ? '_(with_border)' : '') . '.pdf';
 
         // artboard size in points (pt)
 
-        $height = 1071.36;
-        $width = 612;
+        $height = 720;
+        $width = 540;
 
 
         $pdf = Pdf::loadView('print', compact('qrcodes', 'pdf_name', 'height', 'width', 'border'));
