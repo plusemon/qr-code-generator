@@ -69,8 +69,8 @@ class QrCodeController extends Controller
 
         // artboard size in points (pt)
 
-        $height = 1071.36;
-        $width = 612;
+        $height = 1034.646;
+        $width = 609.449;
 
 
         $pdf = Pdf::loadView('print', compact('qrcodes', 'pdf_name', 'height', 'width', 'border'));

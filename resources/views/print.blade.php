@@ -12,8 +12,8 @@
         }
 
         .page {
-            padding-top: 45pt;
-            padding-left: 30pt;
+            padding-top: 25pt;
+            padding-left: 34pt;
             border: 1px solid {{ $isActiveBorder ? 'red' : 'transparent' }};
         }
 
