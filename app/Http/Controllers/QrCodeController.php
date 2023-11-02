@@ -67,7 +67,7 @@ class QrCodeController extends Controller
 
         $pdf_name = 'bizli_labels_' . now('asia/dhaka')->format("Y_m_d_h_i_s") . ($border ? '_(with_border)' : '') . '.pdf';
 
-        // artboard size in points (pt)
+        // art board size in points (pt)
 
         $height = 1034.646;
         $width = 609.449;
