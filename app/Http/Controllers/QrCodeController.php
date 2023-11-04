@@ -42,8 +42,7 @@ class QrCodeController extends Controller
         // $start = time();
         $border = $request->get('border');
 
-        $qrcodes = Excel::toCollection(new QrCodeImport, $request->file('file'))->first()
-            ->flatten();
+        $qrcodes = Excel::toCollection(new QrCodeImport, $request->file('file'))->first();
 
         if ($qrcodes->count() > 3500) {
             throw \Illuminate\Validation\ValidationException::withMessages([
@@ -60,14 +59,14 @@ class QrCodeController extends Controller
         $qrcodes
             ->each(function ($item) {
                 if (!file_exists(public_path("qrcodes/$item.svg")))
-                    QrCode::size(33)->generate($item, public_path("qrcodes/$item.svg"));
-            });
+                    QrCode::size(33)->generate($item[0], public_path("qrcodes/" . $item[0] . ".svg"));
+            }); 
 
         // echo ('<br/> ' . $qrcodes->count() . ' qr codes(svg) saved in => ' . time() - $start . ' sec');
 
         $pdf_name = 'bizli_labels_' . now('asia/dhaka')->format("Y_m_d_h_i_s") . ($border ? '_(with_border)' : '') . '.pdf';
 
-        // art board size in points (pt)
+        // artboard size in points (pt)
 
         $height = 1034.646;
         $width = 609.449;

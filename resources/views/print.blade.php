@@ -55,8 +55,8 @@
     <div class="page">
         @foreach ($chunk as $code)
             <div class="item">
-                <img class="qrimg" src="{{ url("qrcodes/$code.svg") }}">
-                <span class="qrcode">{{ $code }}</span>
+                <img class="qrimg" src="{{ url('qrcodes/' . $code->first() . '.svg') }}">
+                <span class="qrcode">{{ $code->last() }}</span>
             </div>
         @endforeach
     </div>
