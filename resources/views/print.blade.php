@@ -11,38 +11,39 @@
             box-sizing: content-box;
         }
 
-        .page {
-            margin: 20px;
-            padding: 1px;
-            background: rgb(230, 230, 230);
+        .items {
+            margin-top: 12pt;
+            margin-left: 35pt;
+            /* background: rgb(230, 230, 230); */
             /* border: 1px solid {{ $isActiveBorder ? 'red' : 'transparent' }}; */
         }
 
         .item {
-            height: 130pt;
-            width: 300pt;
-            margin: 10px;
+            display: inline-block;
+            width: 153pt;
+            height: 43pt;
+            /* margin: 10px; */
             position: relative;
-            border: 1px solid {{ $isActiveBorder ? 'blue' : 'transparent' }};
+            border: 1px solid {{ $isActiveBorder ? 'green' : 'transparent' }};
         }
 
         .qrimg {
             position: absolute;
-            top: 30%;
-            left: 45%;
-            border: 1px solid {{ $isActiveBorder ? 'red' : 'transparent' }};
+            top: 12pt;
+            left: 12pt;
+            border: 1px solid {{ $isActiveBorder ? 'green' : 'transparent' }};
         }
 
         .qrcode {
             position: absolute;
-            top: 55%;
-            left: 41%;
+            top: 17pt;
+            left: 41pt;
             text-align: center;
-            height: 16pt;
-            width: 50pt;
-            font-size: 10pt;
-            line-height: 14pt;
-            border: 1px solid {{ $isActiveBorder ? 'red' : 'transparent' }};
+            /* height: 16pt; */
+            /* width: 50pt; */
+            font-size: 9.5pt;
+            /* line-height: 14pt; */
+            border: 1px solid {{ $isActiveBorder ? 'green' : 'transparent' }};
         }
 
         .page-break {
@@ -51,15 +52,21 @@
     </style>
 </head>
 
-@foreach ($qrcodes->chunk(7) as $chunk)
-    <div class="page">
-        @foreach ($chunk as $code)
-            <div class="item">
-                <img class="qrimg" src="{{ url('qrcodes/' . $code->first() . '.svg') }}">
-                <span class="qrcode">{{ $code->last() }}</span>
-            </div>
+@foreach ($qrcodes->chunk(45) as $chunk)
+    <table class="items">
+        @foreach ($chunk->chunk(3) as $item)
+            <tr>
+                @foreach ($item as $code)
+                    <td>
+                        <div class="item">
+                            <img class="qrimg" src="{{ url('qrcodes/' . $code->first() . '.svg') }}">
+                            <span class="qrcode">{{ $code->last() }}</span>
+                        </div>
+                    </td>
+                @endforeach
+            </tr>
         @endforeach
-    </div>
+    </table>
     @if (!$loop->last)
         <div class="page-break"></div>
     @endif

@@ -50,7 +50,7 @@ class QrCodeController extends Controller
             ]);
         }
 
-        // echo ('Excel pharsed in => ' . time() - $start . ' sec');
+        // echo ('Excel phrased in => ' . time() - $start . ' sec');
 
         $this->clearQrCodes();
 
@@ -59,7 +59,7 @@ class QrCodeController extends Controller
         $qrcodes
             ->each(function ($item) {
                 if (!file_exists(public_path("qrcodes/$item.svg")))
-                    QrCode::size(33)->generate($item[0], public_path("qrcodes/" . $item[0] . ".svg"));
+                    QrCode::size(28)->generate($item[0], public_path("qrcodes/" . $item[0] . ".svg"));
             }); 
 
         // echo ('<br/> ' . $qrcodes->count() . ' qr codes(svg) saved in => ' . time() - $start . ' sec');
@@ -68,8 +68,8 @@ class QrCodeController extends Controller
 
         // artboard size in points (pt)
 
-        $height = 1034.646;
-        $width = 609.449;
+        $height = 720;
+        $width = 540;
 
 
         $pdf = Pdf::loadView('print', compact('qrcodes', 'pdf_name', 'height', 'width', 'border'));
