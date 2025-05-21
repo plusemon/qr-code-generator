@@ -32,50 +32,55 @@ class QrCodeController extends Controller
         return view('welcome', compact('files'));
     }
 
+    /**
+     * Handle the QR code generation and PDF creation process.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function print(Request $request)
     {
-
+        // Validate the uploaded file
         $request->validate([
             'file' => ['required', 'file'],
         ]);
 
-        // $start = time();
+        // Determine if QR codes should have a border
         $border = $request->get('border');
 
-        $qrcodes = Excel::toCollection(new QrCodeImport, $request->file('file'))->first()
-            ->flatten();
+        // Parse the uploaded Excel file and flatten the data
+        $qrcodes = Excel::toCollection(new QrCodeImport, $request->file('file'))->first()->flatten();
 
+        // Check if the number of QR codes exceeds the limit
         if ($qrcodes->count() > 3500) {
-            throw \Illuminate\Validation\ValidationException::withMessages([
+            throw ValidationException::withMessages([
                 'file' => 'Maximum 3500 items allowed. (This file has ' . $qrcodes->count() . ' items)'
             ]);
         }
 
-        // echo ('Excel pharsed in => ' . time() - $start . ' sec');
-
+        // Clear existing QR codes
         $this->clearQrCodes();
 
-        // echo ('<br/> existing data cleared in => ' . time() - $start . ' sec');
+        // Generate QR codes and save them as SVG files
+        $qrcodes->each(function ($item) {
+            if (!file_exists(public_path("qrcodes/$item.svg"))) {
+                QrCode::size(30)->generate($item, public_path("qrcodes/$item.svg"));
+            }
+        });
 
-        $qrcodes
-            ->each(function ($item) {
-                if (!file_exists(public_path("qrcodes/$item.svg")))
-                    QrCode::size(33)->generate($item, public_path("qrcodes/$item.svg"));
-            });
-
-        // echo ('<br/> ' . $qrcodes->count() . ' qr codes(svg) saved in => ' . time() - $start . ' sec');
-
+        // Create a unique PDF name based on the current time and border option
         $pdf_name = 'bizli_labels_' . now('asia/dhaka')->format("Y_m_d_h_i_s") . ($border ? '_(with_border)' : '') . '.pdf';
 
-        // artboard size in points (pt)
+        // Define the PDF page size in (pt)
+        $width = 595.2756;
+        $height = 841.8898;
 
-        $height = 1034.646;
-        $width = 609.449;
-
-
+        // Load the view for printing, set the paper size, and save the PDF
         $pdf = Pdf::loadView('print', compact('qrcodes', 'pdf_name', 'height', 'width', 'border'));
-        $pdf->set_paper(array(0, 0, $width, $height));
+        $pdf->set_paper([0, 0, $width, $height]);
 
+        // Save the PDF to the public directory and stream it as a response
         $pdf->save(public_path('pdf/' . $pdf_name));
         return $pdf->stream($pdf_name);
     }
