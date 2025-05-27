@@ -37,9 +37,16 @@
         <h1 class="text-center">QR Magic </h1>
         <h6 class="text-center mb-5">Autometic QR Code Generation and manipulation </h6>
 
+        
         <form action="{{ route('print') }}" onsubmit="showLoader()" class="container" method="POST" enctype="multipart/form-data">
             @csrf
-
+            @if (now()->diffInDays($license['expires_at']) == 15)
+                    <div class="alert alert-warning">
+                    <p class="text-center">Your license is about to expire in {{ now()->diffInDays($license['expires_at']) }} days. Please renew your license.</p>
+                    <p class="text-center">Call Now: 01995329555 / bdemon00@gmail.com</p>
+                </div>
+            @endif
+            
             <div id="uploader">
                 <label for="">Upload file (csv, xlxs etc) <a download href="{{ url('/sample-qr-codes.xlsx') }}">Download
                         sample-qr-codes.xls</a></label>
@@ -57,7 +64,6 @@
             <div class="my-3 text-center" id="submitBtn">
                 <button type="submit" class="btn btn-primary btn-block">Generate QR Code</button>
                 <button type="button" class="btn btn-outline-dark" onclick="toggleHistory()">History</button>
-
             </div>
 
             <div id="myProgressBar">
