@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InstallController;
+use App\Http\Controllers\LicenseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,13 +16,7 @@ use App\Http\Controllers\InstallController;
 */
 
 Route::get('/', ['\App\Http\Controllers\QrCodeController', 'home'])->name('home');
-
 Route::post('qr', ['\App\Http\Controllers\QrCodeController', 'print'])->name('print');
 
-// Route::delete('qr/{path}', ['\App\Http\Controllers\QrCodeController', 'destroy'])->name('qr.destroy');
-
-
-Route::prefix('install')->group(function () {
-    Route::get('license', [InstallController::class, 'showLicenseForm'])->name('install.license');
-    Route::post('validate', [InstallController::class, 'validateLicense'])->name('install.validate');
-});
+Route::get('/activate', [LicenseController::class, 'showForm'])->name('license.required');
+Route::post('/activate', [LicenseController::class, 'activate'])->name('license.activate');

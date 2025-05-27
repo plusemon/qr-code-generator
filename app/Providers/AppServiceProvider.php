@@ -26,18 +26,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Check license on every request if installed
-        // if (File::exists(storage_path('installed'))) {
-        //     $licenseKey = File::get(storage_path('installed'));
-        //     $license = License::where('license_key', $licenseKey)->first();
-
-        //     if (!$license || !$license->is_active || $license->expires_at < now()) {
-        //         // License is invalid - show warning or disable features
-        //         config(['app.license_valid' => false]);
-        //     } else {
-        //         config(['app.license_valid' => true]);
-        //     }
-        // }
         Paginator::useBootstrap();
     }
 }
