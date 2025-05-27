@@ -89,4 +89,9 @@ class LicenseService
     {
         return $this->licenseData && $this->validate($this->licenseData['key']);
     }
+
+    public function getLicenseData($key = null)
+    {
+        return $key ? data_get($this->licenseData, $key) : $this->licenseData;
+    }
 }

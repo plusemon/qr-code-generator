@@ -19,8 +19,8 @@ class LicenseController extends Controller
         ]);
 
         if ($license->validate($request->activation_key)) {
-            return redirect('/')->with('success', 'License activated until ' .
-                $license->licenseData['expires_at']);
+            $message = 'License activated until ' . $license->getLicenseData('expires_at');
+            return redirect('/')->with('success', $message);
         }
 
         return back()->withErrors(['activation_key' => 'Invalid activation key.']);
