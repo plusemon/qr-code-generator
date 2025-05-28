@@ -12,7 +12,7 @@ class GenerateLicense extends Command
      *
      * @var string
      */
-    protected $signature = 'license:generate';
+    protected $signature = 'generate:license';
 
     /**
      * The console command description.
