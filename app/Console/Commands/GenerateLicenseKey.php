@@ -41,11 +41,7 @@ class GenerateLicenseKey extends Command
     public function handle()
     {
         $licenseService = new LicenseService();
-        try {
-            $key = $licenseService->generateLicenseKey($this->option('days'), Carbon::now()->addDays($this->option('days'))->format('d-m-Y'));
-            $this->info('Generated license key: ' . $key);
-        } catch (Exception $e) {
-            $this->error('Error generating license key: ' . $e->getMessage());
-        }
+        $key = $licenseService->generateLicenseKey($this->option('days') ?: 365);
+        $this->info('Generated license key: ' . $key);
     }
 }
