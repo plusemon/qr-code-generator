@@ -25,7 +25,8 @@ class QrCodeController extends Controller
     {
 
 
-        $license = $licenseService->getLicenseData();
+        $license = $licenseService->getLicenseInfo();
+        $remainingDays = $licenseService->getRemainingDays();
 
         $directory = public_path('pdf');
         $items = array_diff(scandir($directory), array('..', '.'));
@@ -34,7 +35,7 @@ class QrCodeController extends Controller
 
         $files = (new Collection($items))->paginate(20);
 
-        return view('welcome', compact('files', 'license'));
+        return view('welcome', compact('files', 'license', 'remainingDays'));
     }
 
     public function print(Request $request)

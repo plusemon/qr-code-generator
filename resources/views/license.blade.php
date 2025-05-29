@@ -33,14 +33,13 @@
         <form action="{{ route('license.activate') }}" method="POST" class="space-y-6">
             @csrf
             <div>
-                <label for="activation_key" class="block text-sm font-medium text-gray-700 mb-2">Activation Key</label>
-                <input type="text" id="activation_key" name="activation_key" value="{{ old('activation_key') }}"
-                    placeholder="e.g., ABC-123-XYZ"
+                <label class="block text-sm font-medium text-gray-700 mb-2">License Key</label>
+                <input type="text" name="license_key" value="{{ old('license_key') }}" placeholder="e.g., ABC-123-XYZ"
                     class="block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900">
             </div>
-            @if (isset($errors) && $errors->has('activation_key'))
+            @if (isset($errors) && $errors->has('license_key'))
                 <div class="mt-4 p-3 bg-red-100 text-red-700 rounded-lg">
-                    @error('activation_key') {{ $message }} @enderror
+                    @error('license_key') {{ $message }} @enderror
                 </div>
             @endif
             <div>

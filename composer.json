@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "barryvdh/laravel-cors": "^3.0",
         "barryvdh/laravel-dompdf": "^2.0",
         "barryvdh/laravel-snappy": "^1.0",
         "guzzlehttp/guzzle": "^7.0.1",
@@ -16,6 +17,7 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "maatwebsite/excel": "^3.1",
+        "phpseclib/phpseclib": "^3.0",
         "simplesoftwareio/simple-qrcode": "^4.2"
     },
     "require-dev": {

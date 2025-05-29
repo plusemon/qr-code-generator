@@ -40,9 +40,9 @@
         
         <form action="{{ route('print') }}" onsubmit="showLoader()" class="container" method="POST" enctype="multipart/form-data">
             @csrf
-            @if (now()->diffInDays($license['expires_at']) == 15)
+            @if ($remainingDays < 30)
                     <div class="alert alert-warning">
-                    <p class="text-center">Your license is about to expire in {{ now()->diffInDays($license['expires_at']) }} days. Please renew your license.</p>
+                    <p class="text-center">Your license is about to expire in {{ $remainingDays }} days. Please renew your license.</p>
                     <p class="text-center">Call Now: 01995329555 / bdemon00@gmail.com</p>
                 </div>
             @endif
