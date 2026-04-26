@@ -53,10 +53,8 @@ class QrCodeController extends Controller
             $qrcodes = Excel::toCollection(new QrCodeImport, $request->file('file'))->first()->flatten();
 
             // Check if the number of QR codes exceeds the limit
-            if ($qrcodes->count() > 5000) {
-                throw ValidationException::withMessages([
-                    'file' => 'Maximum 5000 items allowed. (This file has ' . $qrcodes->count() . ' items)'
-                ]);
+            if ($qrcodes->count() > 10000) {
+                return back()->withErrors(['file' => 'Maximum 10000 items allowed. (This file has ' . $qrcodes->count() . ' items)']);
             }
 
             // Clear existing QR codes
@@ -64,6 +62,10 @@ class QrCodeController extends Controller
 
             // Generate QR codes and save them as SVG files
             $qrcodes->each(function ($item) {
+                // continue if item is empty
+                if (empty($item)) {
+                    return;
+                }
                 if (!file_exists(public_path("qrcodes/$item.svg"))) {
                     QrCode::size(30)->generate($item, public_path("qrcodes/$item.svg"));
                 }
@@ -84,8 +86,7 @@ class QrCodeController extends Controller
             $pdf->save(public_path('pdf/' . $pdf_name));
             return $pdf->stream($pdf_name);
         } catch (\Throwable $th) {
-            // throw $th;
-            return back()->withErrors('file', $th->getMessage());
+            return back()->withErrors(['file' => $th->getMessage()]);
         }
     }
 
